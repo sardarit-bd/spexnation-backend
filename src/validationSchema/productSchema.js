@@ -4,9 +4,13 @@ const productSchema = Joi.object({
 
     ProductTitle: Joi.string().min(2).max(100).required(),
 
-    product_Discription: Joi.string().allow("").optional(),
+    collection: Joi.string().allow("").required(),
 
-    product_price: Joi.number().allow("").optional(),
+    shortdes: Joi.string().allow("").required(),
+
+    product_Discription: Joi.string().allow("").required(),
+
+    product_price: Joi.number().allow("").required(),
 
     discount: Joi.number().allow("").optional(),
 
@@ -28,6 +32,7 @@ const productSchema = Joi.object({
 
     product_Images: Joi.array()
         .min(1)
+        .max(5)
         .required(),
 });
 

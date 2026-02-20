@@ -21,19 +21,34 @@ const productSchema = new mongoose.Schema(
 
         product_Discription: {
             type: String,
+            required: true,
+            default: "",
+            trim: true,
+        },
+
+        collection: {
+            type: String,
+            required: true,
+            default: "",
+            trim: true,
+        },
+        shortdes: {
+            type: String,
+            required: true,
             default: "",
             trim: true,
         },
 
         product_price: {
             type: Number,
-            default: "",
+            default: 0,
+            required: true,
             trim: true,
         },
 
         discount: {
             type: Number,
-            default: "",
+            default: 0,
             trim: true,
         },
 
@@ -52,6 +67,53 @@ const productSchema = new mongoose.Schema(
                 message: "At least one service image is required",
             },
         },
+
+
+
+
+        color: {
+            type: String,
+            required: false,
+            trim: true,
+        },
+
+        size: {
+            type: String,
+            required: false,
+            trim: true,
+        },
+
+        quentity: {
+            type: Number,
+            required: false,
+            default: 0,
+            trim: true,
+        },
+
+        weight: {
+            type: String,
+            required: false,
+            trim: true,
+        },
+
+        meterial: {
+            type: String,
+            required: false,
+            trim: true,
+        },
+
+        shape: {
+            type: String,
+            required: false,
+            trim: true,
+        },
+
+        style: {
+            type: String,
+            required: false,
+            trim: true,
+        },
+
 
         status: {
             type: String,
