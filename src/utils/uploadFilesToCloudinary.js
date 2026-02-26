@@ -10,7 +10,7 @@ const uploadFilesToCloudinary = async (files) => {
                 cloudinary.uploader.upload(
                     file.base64 || file,  // base64 string or real file path
                     {
-                        folder: "voittinc-services",
+                        folder: "spexnation",
                         resource_type: "auto", // handles pdf, image, etc.
                     },
                     (err, result) => {

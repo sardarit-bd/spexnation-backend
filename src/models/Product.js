@@ -72,7 +72,7 @@ const productSchema = new mongoose.Schema(
 
 
         color: {
-            type: String,
+            type: Array,
             required: false,
             trim: true,
         },
@@ -83,12 +83,6 @@ const productSchema = new mongoose.Schema(
             trim: true,
         },
 
-        quentity: {
-            type: Number,
-            required: false,
-            default: 0,
-            trim: true,
-        },
 
         weight: {
             type: String,
@@ -102,11 +96,6 @@ const productSchema = new mongoose.Schema(
             trim: true,
         },
 
-        shape: {
-            type: String,
-            required: false,
-            trim: true,
-        },
 
         style: {
             type: String,

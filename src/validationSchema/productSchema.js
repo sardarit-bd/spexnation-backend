@@ -14,17 +14,14 @@ const productSchema = Joi.object({
 
     discount: Joi.number().allow("").optional(),
 
-    color: Joi.string().allow("").optional(),
+    color: Joi.array().min(1).max(5).required(),
 
     size: Joi.string().allow("").optional(),
 
-    quentity: Joi.number().allow("").optional(),
 
     weight: Joi.string().allow("").optional(),
 
     meterial: Joi.string().allow("").optional(),
-
-    shape: Joi.string().allow("").optional(),
 
     style: Joi.string().allow("").optional(),
 

@@ -2,6 +2,11 @@ import mongoose from "mongoose";
 
 const orderSchema = new mongoose.Schema(
     {
+        orderId: {
+            type: String,
+            required: true,
+            trim: true,
+        },
 
         fullname: {
             type: String,
@@ -37,10 +42,36 @@ const orderSchema = new mongoose.Schema(
             required: true,
             trim: true,
         },
+
+        paymentStatus: {
+            type: String,
+            required: true,
+            trim: true,
+            default: "Pending",
+        },
+
+        deliveryStatus: {
+            type: String,
+            required: true,
+            trim: true,
+            default: "Pending",
+        },
+
         hasData: {
             type: Array,
             default: [],
             required: true,
+        },
+        pdf: {
+            type: String,
+            required: true,
+            trim: true,
+        },
+
+        PrescriptionImage: {
+            type: String,
+            required: true,
+            trim: true,
         }
 
 
