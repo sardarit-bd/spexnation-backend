@@ -1,5 +1,7 @@
 import Order from "../../models/Order.js";
-
+import createPdfFile from "../../utils/pdf-ganaration/createPdfFile.js";
+import { sendEmail } from "../../utils/sendEmail.js";
+import uploadSingleFileToCloudinary from "../../utils/uploadSingleFileToCloudinary.js";
 
 
 /********** get all product controller is here **********/
@@ -98,8 +100,26 @@ const createOrder = async (req, res) => {
 
     try {
 
+        const bodyData = req.body;
 
-        const order = await Order.create(req.body);
+
+        const orderID = `OID-${Date.now().toString().slice(-5)}`;
+
+        // ganarate pdf file with prescription information
+        const file = await createPdfFile(bodyData, orderID);
+        const base64 = `data:application/pdf;base64,${file}`;
+        const uploadFile = await uploadSingleFileToCloudinary(base64);
+
+
+        // send email to the admin
+        await sendEmail([bodyData.email, process.env.ADMIN_EMAIL], uploadFile);
+
+
+        const PrescriptionImage = await uploadSingleFileToCloudinary(bodyData?.hasData[0]?.prescriptionImage);
+
+
+        const value = { orderId: orderID, ...bodyData, pdf: uploadFile, PrescriptionImage: PrescriptionImage };
+        const order = await Order.create(value);
 
 
         // Send success response
