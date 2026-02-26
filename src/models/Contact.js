@@ -25,7 +25,7 @@ const contactSchema = new mongoose.Schema(
 
         subject: {
             type: String,
-            required: [true, "Subject is required"],
+            required: [false, "Subject is required"],
             trim: true,
             minlength: [5, "Subject should be at least 5 characters"],
             maxlength: [100, "Subject cannot exceed 100 characters"],

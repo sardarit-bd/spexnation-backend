@@ -78,7 +78,7 @@ const createContact = async (req, res) => {
         const saveableData = {
             name: value.name,
             email: value.email,
-            subject: value.subject,
+            subject: 'Subject',
             message: value.message,
         };
 
