@@ -23,7 +23,7 @@ const contactSchema = Joi.object({
         .trim()
         .min(5)
         .max(100)
-        .required()
+        .optional()
         .messages({
             "string.empty": "Subject is required.",
             "string.min": "Subject should be at least 5 characters.",

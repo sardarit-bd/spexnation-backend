@@ -166,7 +166,7 @@ const updateOrder = async (req, res) => {
 
 
         // Update the product
-        const updatedOrder = await Order.findByIdAndUpdate(id, value, {
+        const updatedOrder = await Order.findByIdAndUpdate({ _id: id }, { deliveryStatus: value.deliveryStatus }, {
             new: true, // return updated document
             runValidators: true, // enforce schema validation
         });
