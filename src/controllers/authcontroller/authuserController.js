@@ -130,7 +130,7 @@ const loginUser = async (req, res) => {
         name: user.name,
         email: user.email,
         role: user.role,
-        token: generateToken(user._id, user.name, user.role),
+        token: generateToken(user._id, user.name, user?.email, user.role),
       }
     });
   } catch (err) {
