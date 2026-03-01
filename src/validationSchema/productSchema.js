@@ -2,35 +2,39 @@ import Joi from "joi";
 
 const productSchema = Joi.object({
 
-    ProductTitle: Joi.string().min(2).max(100).required(),
 
-    collection: Joi.string().allow("").required(),
+    brand: Joi.string().min(2).max(100).required(),
+
+    ProductTitle: Joi.string().min(2).max(100).required(),
 
     shortdes: Joi.string().allow("").required(),
 
-    product_Discription: Joi.string().allow("").required(),
-
     product_price: Joi.number().allow("").required(),
 
-    discount: Joi.number().allow("").optional(),
-
-    color: Joi.array().min(1).max(5).required(),
-
-    size: Joi.string().allow("").optional(),
-
+    gender: Joi.string().allow("").optional(),
 
     weight: Joi.string().allow("").optional(),
 
     meterial: Joi.string().allow("").optional(),
 
-    style: Joi.string().allow("").optional(),
+    fType: Joi.string().min(1).max(100).allow("").optional(),
 
-    product_thamnail: Joi.string().required(),
+    fShape: Joi.string().min(1).max(100).allow("").optional(),
+
+    lensWidth: Joi.string().min(1).max(25).allow("").optional(),
+
+    lensHeight: Joi.string().min(1).max(25).allow("").optional(),
+
+    BridgeWidth: Joi.string().min(1).max(25).allow("").optional(),
+
+    ArmLength: Joi.string().min(1).max(25).allow("").optional(),
 
     product_Images: Joi.array()
         .min(1)
         .max(5)
         .required(),
+
+    product_Discription: Joi.string().allow("").required(),
 });
 
 export default productSchema;

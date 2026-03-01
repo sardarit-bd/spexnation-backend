@@ -13,31 +13,26 @@ const fileSchema = new mongoose.Schema(
 const productSchema = new mongoose.Schema(
     {
 
+        brand: {
+            type: String,
+            required: true,
+            trim: true,
+        },
+
         ProductTitle: {
             type: String,
             required: true,
             trim: true,
         },
 
-        product_Discription: {
-            type: String,
-            required: true,
-            default: "",
-            trim: true,
-        },
 
-        collection: {
-            type: String,
-            required: true,
-            default: "",
-            trim: true,
-        },
         shortdes: {
             type: String,
             required: true,
             default: "",
             trim: true,
         },
+
 
         product_price: {
             type: Number,
@@ -46,38 +41,10 @@ const productSchema = new mongoose.Schema(
             trim: true,
         },
 
-        discount: {
-            type: Number,
-            default: 0,
-            trim: true,
-        },
-
-        product_thamnail: {
-            type: String,
-            required: true,
-            trim: true,
-        },
-
-        // Array of serviceImages (base64 objects)
-        product_Images: {
-            type: [String],
-            required: true,
-            validate: {
-                validator: (arr) => Array.isArray(arr) && arr.length > 0,
-                message: "At least one service image is required",
-            },
-        },
 
 
 
-
-        color: {
-            type: Array,
-            required: false,
-            trim: true,
-        },
-
-        size: {
+        gender: {
             type: String,
             required: false,
             trim: true,
@@ -90,18 +57,64 @@ const productSchema = new mongoose.Schema(
             trim: true,
         },
 
+
         meterial: {
             type: String,
             required: false,
             trim: true,
         },
 
-
-        style: {
+        fType: {
             type: String,
             required: false,
             trim: true,
         },
+
+        fShape: {
+            type: String,
+            required: false,
+            trim: true,
+        },
+        lensWidth: {
+            type: String,
+            required: false,
+            trim: true,
+        },
+        lensHeight: {
+            type: String,
+            required: false,
+            trim: true,
+        },
+        BridgeWidth: {
+            type: String,
+            required: false,
+            trim: true,
+        },
+        ArmLength: {
+            type: String,
+            required: false,
+            trim: true,
+        },
+
+
+        // Array of serviceImages (base64 objects)
+        product_Images: {
+            type: Array,
+            required: true,
+            validate: {
+                validator: (arr) => arr.length > 0,
+                message: "At least one product image is required"
+            }
+        },
+
+
+        product_Discription: {
+            type: String,
+            required: true,
+            default: "",
+            trim: true,
+        },
+
 
 
         status: {

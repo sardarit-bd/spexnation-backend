@@ -156,6 +156,7 @@ const createProduct = async (req, res) => {
     // If validation fails, return 400 with all validation errors
     if (error) {
       const validationErrors = error.details.map((err) => err.message);
+      console.log(error);
       return res.status(400).json({
         success: false,
         message: "Invalid product data.",
