@@ -1,15 +1,15 @@
 import express from "express";
 import { getAllUsers, getUser, updateUser } from '../../controllers/userController/userController.js';
-import { protect } from "../../middlewares/authMiddleware.js";
+import { authorize, protect } from "../../middlewares/authMiddleware.js";
 
 
 const router = express.Router();
 
 
 
-router.get("/allusers", protect, getAllUsers);
-router.get("/user/:id", protect, getUser);
-router.put("/user/:id", protect, updateUser);
+router.get("/allusers", protect, authorize("admin",), getAllUsers);
+router.get("/user/:id", protect, authorize("admin", "user"), protect, getUser);
+router.put("/user/:id", protect, authorize("admin", "user"), protect, updateUser);
 
 
 
