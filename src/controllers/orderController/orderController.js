@@ -39,6 +39,45 @@ const getAllOrders = async (req, res) => {
 
 
 
+/********** get all product controller is here **********/
+const myOrders = async (req, res) => {
+
+
+    try {
+
+
+        const { id } = req.params;;
+
+
+        // For each product, attach its reviews and reviewer info
+        const order = await Order.findById(id);
+
+        console.log(order);
+
+        // Return response
+        res.status(200).json({
+            success: true,
+            message: "My Order fetched successfully!",
+            data: order,
+        });
+
+    } catch (error) {
+        console.error("Error fetching My order:", error.message);
+        res.status(500).json({
+            success: false,
+            message: "Something went wrong while fetching order.",
+        });
+    }
+
+
+};
+
+
+
+
+
+
+
 
 
 
@@ -273,7 +312,6 @@ const deleteOrder = async (req, res) => {
 
 /*********** modules export from here ************/
 export {
-    createOrder, deleteOrder, getAllOrders, getSingleOrder,
-    updateOrder
+    createOrder, deleteOrder, getAllOrders, getSingleOrder, myOrders, updateOrder
 };
 
