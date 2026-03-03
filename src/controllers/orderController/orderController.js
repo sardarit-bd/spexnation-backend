@@ -158,6 +158,7 @@ const createOrder = async (req, res) => {
 
 
         const value = { orderId: orderID, ...bodyData, pdf: uploadFile, PrescriptionImage: PrescriptionImage };
+        
         const order = await Order.create(value);
 
 

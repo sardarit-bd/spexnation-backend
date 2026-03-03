@@ -114,6 +114,73 @@ const createCoupon = async (req, res) => {
 
 
 
+/********** apply coupons controller is here **********/
+const applyCoupon = async (req, res) => {
+
+    try {
+
+
+        const { couponCode } = req.body;
+
+
+
+        // find the all coupon code
+        const coupon = await Coupons.find();
+
+
+        // If no product found
+        if (!coupon) {
+            return res.status(404).json({
+                success: false,
+                message: "Coupon not found.",
+            });
+        }
+
+
+        const isCouponExist = coupon?.filter((c) => {
+            return c.cCode === couponCode;
+        });
+
+
+        if (isCouponExist.length) {
+
+            // Send success response
+            res.status(201).json({
+                success: true,
+                message: "Coupon applied successfully!",
+                data: isCouponExist[0],
+            });
+
+
+
+        } else {
+
+            // no coupon match
+            res.status(404).json({
+                success: false,
+                message: "Coupon Code Does Not Match",
+            });
+
+
+        }
+
+    } catch (err) {
+        console.error("Error while Apply Coupons:", err.message);
+        res.status(500).json({
+            success: false,
+            message: "Something went wrong while creating the Contact.",
+        });
+    }
+
+};
+
+
+
+
+
+
+
+
 
 
 /********** Delete  coupons controller is here **********/
@@ -179,7 +246,5 @@ const deleteCoupon = async (req, res) => {
 
 
 /*********** modules export from here ************/
-export {
-    createCoupon, deleteCoupon, getAllCoupon
-};
+export { applyCoupon, createCoupon, deleteCoupon, getAllCoupon };
 

@@ -20,13 +20,13 @@ const orderSchema = new mongoose.Schema(
             trim: true,
         },
 
-        phone: {
+        address1: {
             type: String,
             required: true,
             trim: true,
         },
 
-        address: {
+        address2: {
             type: String,
             required: true,
             trim: true,
@@ -37,7 +37,20 @@ const orderSchema = new mongoose.Schema(
             required: true,
             trim: true,
         },
+
+         state: {
+            type: String,
+            required: true,
+            trim: true,
+        },
+
         zipcode: {
+            type: String,
+            required: true,
+            trim: true,
+        },
+
+        country: {
             type: String,
             required: true,
             trim: true,
@@ -72,7 +85,12 @@ const orderSchema = new mongoose.Schema(
             type: String,
             required: true,
             trim: true,
-        }
+        },
+        grandTotal: {
+            type: Number,
+            required: true,
+            trim: true,
+        },
 
 
     },

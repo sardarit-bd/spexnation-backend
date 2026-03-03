@@ -1,5 +1,5 @@
 import express from "express";
-import { createCoupon, deleteCoupon, getAllCoupon } from "../../controllers/couponController/couponController.js";
+import { applyCoupon, createCoupon, deleteCoupon, getAllCoupon } from "../../controllers/couponController/couponController.js";
 import { authorize, protect } from "../../middlewares/authMiddleware.js";
 
 const router = express.Router();
@@ -9,9 +9,8 @@ const router = express.Router();
 
 router.get("/allcoupon", getAllCoupon);
 router.post("/addcoupon", protect, authorize("admin"), createCoupon);
+router.post("/applycoupon", applyCoupon); // protect, authorize("admin", "user"),
 router.delete("/deletecoupon/:id", protect, authorize("admin"), deleteCoupon);
-
-
 
 
 export default router;
