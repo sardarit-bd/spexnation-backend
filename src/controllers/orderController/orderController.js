@@ -50,15 +50,17 @@ const myOrders = async (req, res) => {
 
 
         // For each product, attach its reviews and reviewer info
-        const order = await Order.findById(id);
+        const order = await Order.find();
 
-        console.log(order);
+        const myOrder = await Order.find({ userID: id });
+
+
 
         // Return response
         res.status(200).json({
             success: true,
             message: "My Order fetched successfully!",
-            data: order,
+            data: myOrder,
         });
 
     } catch (error) {
@@ -158,7 +160,7 @@ const createOrder = async (req, res) => {
 
 
         const value = { orderId: orderID, ...bodyData, pdf: uploadFile, PrescriptionImage: PrescriptionImage };
-        
+
         const order = await Order.create(value);
 
 

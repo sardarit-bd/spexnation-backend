@@ -2,6 +2,13 @@ import mongoose from "mongoose";
 
 const orderSchema = new mongoose.Schema(
     {
+
+        userID: {
+            type: String,
+            required: true,
+            trim: true,
+        },
+
         orderId: {
             type: String,
             required: true,
@@ -38,7 +45,7 @@ const orderSchema = new mongoose.Schema(
             trim: true,
         },
 
-         state: {
+        state: {
             type: String,
             required: true,
             trim: true,
@@ -83,7 +90,7 @@ const orderSchema = new mongoose.Schema(
 
         PrescriptionImage: {
             type: String,
-            required: true,
+            required: false,
             trim: true,
         },
         grandTotal: {
