@@ -19,6 +19,12 @@ const productSchema = new mongoose.Schema(
             trim: true,
         },
 
+        productType: {
+            type: String,
+            required: true,
+            trim: true,
+        },
+
         ProductTitle: {
             type: String,
             required: true,

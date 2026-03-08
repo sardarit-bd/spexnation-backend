@@ -1,3 +1,4 @@
+import stripe from "../../config/stripe.js";
 import Order from "../../models/Order.js";
 import createPdfFile from "../../utils/pdf-ganaration/createPdfFile.js";
 import { sendEmail } from "../../utils/sendEmail.js";
@@ -146,6 +147,7 @@ const createOrder = async (req, res) => {
 
         const orderID = `OID-${Date.now().toString().slice(-5)}`;
 
+
         // ganarate pdf file with prescription information
         const file = await createPdfFile(bodyData, orderID);
         const base64 = `data:application/pdf;base64,${file}`;
@@ -164,11 +166,42 @@ const createOrder = async (req, res) => {
         const order = await Order.create(value);
 
 
+
+
+
+
+
+
+        // payment code is here
+        const session = await stripe.checkout.sessions.create({
+            payment_method_types: ["card"],
+            mode: "payment",
+            line_items: [
+                {
+                    price_data: {
+                        currency: "eur",
+                        product_data: {
+                            name: bodyData?.hasData[0]?.LenseName,
+                            images: [bodyData?.hasData[0]?.ProductDetails?.product_Images[bodyData?.hasData[0]?.selectedProductIndex].img[0]],
+                        },
+                        unit_amount: Math.round(bodyData?.grandTotal * 100), 
+                    },
+                    quantity: 1,
+                }
+            ],
+            success_url: `${process.env.LIVE_SITE_URL}/payment/success?session_id={CHECKOUT_SESSION_ID}`,
+            cancel_url: `${process.env.LIVE_SITE_URL}/payment/cancel`,
+            client_reference_id: orderID,
+        });
+
+
+
         // Send success response
         res.status(201).json({
             success: true,
             message: "Order created successfully!",
             data: order,
+            url: session.url
         });
 
     } catch (err) {

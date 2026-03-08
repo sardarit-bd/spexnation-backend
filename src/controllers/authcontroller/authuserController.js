@@ -1,6 +1,7 @@
 import bcrypt from "bcryptjs";
 import OTP from "../../models/OtpTracking.js";
 import User from "../../models/User.js";
+import addUserToMailchimp from "../../utils/addUserToMailchimp.js";
 import generateToken from "../../utils/generateToken.js";
 import { generateOTP, sendEmail } from "../../utils/optsender.js";
 import { loginSchema, registerSchema } from "../../validationSchema/authvalidation.js";
@@ -19,7 +20,7 @@ const registerUser = async (req, res) => {
 
 
     // Validate body data using Joi schema
-    const { error, value: { name, email, password, role } } = registerSchema.validate(req.body, { abortEarly: false });
+    const { error, value: { name, email, password, role, isNewsletter } } = registerSchema.validate(req.body, { abortEarly: false });
 
 
 
@@ -57,12 +58,13 @@ const registerUser = async (req, res) => {
       name,
       email,
       password: hashedPassword,
-      role
+      role,
+      isNewsletter
     });
 
-
-
-
+    if (isNewsletter) {
+      await addUserToMailchimp(email, name);
+    }
 
 
 

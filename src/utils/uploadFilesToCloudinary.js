@@ -4,27 +4,36 @@ const uploadFilesToCloudinary = async (files) => {
     try {
         if (!files || !files.length) return [];
 
-        const uploads = files.map((file) => {
-            return new Promise((resolve, reject) => {
-                cloudinary.uploader.upload(
-                    file?.img?.base64 || file?.img,
-                    {
-                        folder: "spexnation",
-                        resource_type: "auto",
-                    },
-                    (err, result) => {
-                        if (err) {
-                            console.error("Cloudinary Upload Error:", err);
-                            reject(err);
-                        } else {
-                            resolve({
-                                ...file,                 // keep full object
-                                img: result.secure_url   // replace base64 with URL
-                            });
+        const uploads = files.map(async (file) => {
+
+            if (!file.img || !file.img.length) return file;
+
+            const imageUploads = file.img.map((image) => {
+                return new Promise((resolve, reject) => {
+                    cloudinary.uploader.upload(
+                        image,
+                        {
+                            folder: "spexnation",
+                            resource_type: "auto",
+                        },
+                        (err, result) => {
+                            if (err) {
+                                console.error("Cloudinary Upload Error:", err);
+                                reject(err);
+                            } else {
+                                resolve(result.secure_url);
+                            }
                         }
-                    }
-                );
+                    );
+                });
             });
+
+            const uploadedImages = await Promise.all(imageUploads);
+
+            return {
+                ...file,
+                img: uploadedImages
+            };
         });
 
         return await Promise.all(uploads);

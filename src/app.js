@@ -5,6 +5,7 @@ import express from "express";
 
 /*******internal files import here *******/
 import { errorHandler, notFound } from "./middlewares/errorMiddleware.js";
+import accessoriesRoutes from "./routes/accessoriesRoutes/accessoriesRoutes.js";
 import adminRoutes from './routes/adminRoutes/adminRoutes.js';
 import authRoutes from './routes/authroute/authUserRoutes.js';
 import contactRoutes from "./routes/contactRoutes/contactRoutes.js";
@@ -13,6 +14,7 @@ import healthRoutes from "./routes/health/healthRoute.js";
 import orderRoute from "./routes/orderRoute/orderRoute.js";
 import productRoutes from './routes/productroute/productRoute.js';
 import reviewRoutes from './routes/review/reviewRoutes.js';
+import stripeRoutes from "./routes/stripeRoutes/stripeRoutes.js";
 import userRoutes from './routes/userroute/userRoutes.js';
 import "./workers/product.worker.js";
 
@@ -90,6 +92,15 @@ app.use("/", adminRoutes);
 
 /********** Admin Routes Define Here *********/
 app.use("/", couponRoutes);
+
+
+/********** accessories Routes Define Here *********/
+app.use("/", accessoriesRoutes);
+
+
+
+/********** payment Routes Define Here *********/
+app.use("/", stripeRoutes);
 
 
 
