@@ -100,6 +100,19 @@ const orderSchema = new mongoose.Schema(
         },
 
 
+        stripeSessionId: {
+            type: String,
+            required: false,
+            default: '',
+        },
+
+        paymentIntent: {
+            type: String,
+            required: false,
+            default: '',
+        }
+
+
     },
     {
         timestamps: true,

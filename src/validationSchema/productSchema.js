@@ -5,6 +5,8 @@ const productSchema = Joi.object({
 
     brand: Joi.string().min(2).max(100).required(),
 
+    productType: Joi.string().min(2).max(100).required(),
+
     ProductTitle: Joi.string().min(2).max(100).required(),
 
     shortdes: Joi.string().allow("").required(),

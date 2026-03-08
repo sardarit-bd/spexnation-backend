@@ -1,8 +1,21 @@
 import environment from "../../config/env.js";
 
 /************* Handle root route response **************/
-const health = (req, res) => {
-  res.json({ message: `Hello from ${environment} environment!` });
+const health = async (req, res) => {
+
+
+  try {
+
+    res.json({ message: `Hello from ${environment} environment!` });
+
+  } catch (error) {
+
+    res.json({ message: `There was a server side error` });
+  }
+
+
+
+
 };
 
 

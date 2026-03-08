@@ -24,6 +24,9 @@ export const registerSchema = Joi.object({
         "any.only": "Role must be either 'user' or 'admin'",
         "any.required": "Role is required",
     }),
+    isNewsletter: Joi.boolean().required().messages({
+        "any.required": "isNewsletter is required",
+    }),
 });
 
 // Login validation schema

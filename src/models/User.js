@@ -68,6 +68,11 @@ const userSchema = new mongoose.Schema(
       default: false,
     },
 
+    isNewsletter: {
+      type: Boolean,
+      default: false
+    }
+
   },
   { timestamps: true } // adds createdAt & updatedAt automatically
 );
