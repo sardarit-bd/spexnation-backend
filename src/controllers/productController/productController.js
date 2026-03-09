@@ -2,6 +2,7 @@ import Product from "../../models/Product.js";
 import Review from "../../models/Review.js";
 import User from "../../models/User.js";
 import { productQueue } from "../../queues/product.queue.js";
+import uploadFilesToCloudinary from "../../utils/uploadFilesToCloudinary.js";
 import productSchema from "../../validationSchema/productSchema.js";
 
 
@@ -212,7 +213,28 @@ const updateProduct = async (req, res) => {
 
 
 
-    const value = req.body;
+    const { ProductTitle, brand, shortdes, product_price, gender, weight, meterial, fType, fShape, lensWidth, lensHeight, BridgeWidth, ArmLength, product_Discription, product_Images } = req.body;
+
+
+    const pt_Images = await uploadFilesToCloudinary(product_Images);
+
+    const value = {
+      ProductTitle,
+      brand,
+      shortdes,
+      product_price,
+      gender,
+      weight,
+      meterial,
+      fType,
+      fShape,
+      lensWidth,
+      lensHeight,
+      BridgeWidth,
+      ArmLength,
+      product_Discription,
+      product_Images: pt_Images,
+    };
 
 
 
