@@ -61,7 +61,55 @@ const adminDeshboard = async (req, res) => {
 
 
 
+/********** get my dashbaord info for the user controller is here **********/
+const myDeshboard = async (req, res) => {
+
+
+    try {
+
+
+        const { id } = req.params;;
+
+
+        // For each product, attach its reviews and reviewer info
+        const order = await Order.find();
+
+        const myOrder = await Order.find({ userID: id });
+
+
+        const pending = myOrder.filter((order) => order.deliveryStatus === "Pending");
+        const responseData = {
+            myTotalOrder: myOrder.length,
+            myPendingOrder: pending.length,
+            Mytotalexpenses: myOrder.reduce((total, order) => total + order.grandTotal, 0)
+        }
+
+
+        // Return response
+        res.status(200).json({
+            success: true,
+            message: "My Order fetched successfully!",
+            data: responseData,
+        });
+
+    } catch (error) {
+        console.error("Error fetching My order:", error.message);
+        res.status(500).json({
+            success: false,
+            message: "Something went wrong while fetching order.",
+        });
+    }
+
+
+};
+
+
+
+
+
+
+
 
 /*********** modules export from here ************/
-export { adminDeshboard };
+export { adminDeshboard, myDeshboard };
 
