@@ -84,7 +84,7 @@ const orderSchema = new mongoose.Schema(
         },
         pdf: {
             type: String,
-            required: true,
+            required: false,
             trim: true,
         },
 
@@ -93,10 +93,31 @@ const orderSchema = new mongoose.Schema(
             required: false,
             trim: true,
         },
+
+        iscoupon: {
+            type: Boolean,
+            required: true,
+            default: false,
+        },
+
+
+        coupondiscount: {
+            type: Number,
+            required: true,
+            default: 0,
+        },
+
+
         grandTotal: {
             type: Number,
             required: true,
             trim: true,
+        },
+
+        discountPrice: {
+            type: Number,
+            required: false,
+            default: 0,
         },
 
 
@@ -110,7 +131,9 @@ const orderSchema = new mongoose.Schema(
             type: String,
             required: false,
             default: '',
-        }
+        },
+
+
 
 
     },

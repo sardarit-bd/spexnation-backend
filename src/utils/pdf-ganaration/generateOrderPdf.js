@@ -1,6 +1,7 @@
 import { jsPDF } from "jspdf";
 import autoTable from "jspdf-autotable";
 import getTotalPrice from "../getTotalPrice.js";
+import capitalizeFirstLetter from "./capitalizeFirstLetter.js";
 
 
 
@@ -27,10 +28,6 @@ async function generateOrderPdf(data, orderID) {
 
     let y = 50;
 
-
-    console.log(data);
-
-
     // ── BRANDING HEADER ─────────────────────────────────────────
 
 
@@ -52,20 +49,23 @@ async function generateOrderPdf(data, orderID) {
 
     let clientY = 35;
 
-    doc.text(`Client: ${data?.fullname || ""}`, pageW - 40, clientY, { align: "right" });
+    doc.text(`Client Name: ${data?.fullname || ""}`, pageW - 40, clientY, { align: "right" });
     clientY += 14;
     doc.text(`Email: ${data?.email || ""}`, pageW - 40, clientY, { align: "right" });
     clientY += 14;
-    doc.text(`Phone: ${data?.phone || ""}`, pageW - 40, clientY, { align: "right" });
+    doc.text(`Address1: ${data?.address1 || ""}`, pageW - 40, clientY, { align: "right" });
     clientY += 14;
-    doc.text(`Address: ${data?.address || ""}`, pageW - 40, clientY, { align: "right" });
-    clientY += 18;
-    doc.text(`Order ID: ${orderID || ""}`, pageW - 40, clientY, { align: "right" });
+    doc.text(`Address2: ${data?.address2 || ""}`, pageW - 40, clientY, { align: "right" });
+    clientY += 14;
+    doc.text(`City: ${data?.city || ""}  State: ${data?.state || ""}`, pageW - 40, clientY, { align: "right" });
+    clientY += 14;
+    doc.text(`Zipcode: ${data?.zipcode || ""}  Country: ${data?.country || ""}`, pageW - 40, clientY, { align: "right" });
+    clientY += 14;
+    doc.text(`Order ID: ${orderID || ""}`, 40, clientY, { align: "left" });
+    clientY += 14;
+    doc.text(`Payment Status: ${`Paid` || ""}`, 40, clientY, { align: "left" });
 
-    y += 40;
-
-
-    y += 35;
+    y += 110;
 
     // SUBTITLE
     doc.setFont("helvetica", "bold");
@@ -222,10 +222,24 @@ async function generateOrderPdf(data, orderID) {
     data.hasData[0].total.forEach((item) => {
         doc.setFont("helvetica", "normal");
         doc.text(item?.target, 40, y);
-        doc.text(` : ${" " + item?.name}`, 100, y);
+        doc.text(` : ${" " + item?.name}`, 150, y);
         doc.text(`£${item?.price}`, pageW - 40, y, { align: "right" });
+        if (item?.target == "Tints" && item?.name == "Sunglasses") {
+            y += 20;
+            doc.text("Color", 40, y);
+            doc.text(` : ${" " + capitalizeFirstLetter(data?.hasData[0]?.color)}`, 150, y);
+            y += 20;
+            doc.text("Darkness", 40, y);
+            doc.text(` : ${" " + capitalizeFirstLetter(data?.hasData[0]?.darkness)}`, 150, y);
+        } else if (item?.target == "Tints" && item?.name != "Clear") {
+            y += 20;
+            doc.text("Color", 40, y);
+            doc.text(` : ${" " + data?.hasData[0]?.color}`, 150, y);
+        }
+
         y += 20;
     });
+
 
     // DIVIDER
     y += 5;
@@ -234,13 +248,46 @@ async function generateOrderPdf(data, orderID) {
     doc.line(40, y, pageW - 40, y);
     y += 18;
 
-    // SUBTOTAL
+
+    if (data?.iscoupon) {
+
+
+        // SUBTOTAL
+        doc.setFont("helvetica", "normal");
+        doc.setFontSize(12);
+        doc.setTextColor(50, 50, 50);
+        doc.text("Subtotal", 40, y);
+        const totalPrice = getTotalPrice(data.hasData[0].total);
+        doc.text(`£${totalPrice.toString()}`, pageW - 40, y, { align: "right" });
+
+        y += 18;
+
+        // Coupon Discount
+        doc.setFont("helvetica", "normal");
+        doc.setFontSize(12);
+        doc.setTextColor(50, 50, 50);
+        doc.text(`Coupon Discount (${data?.coupondiscount}%)`, 40, y);
+        doc.text(`£${data?.discountPrice}`, pageW - 40, y, { align: "right" });
+
+        // DIVIDER
+        y += 10;
+        doc.setDrawColor(200, 200, 200);
+        doc.setLineWidth(0.7);
+        doc.line(40, y, pageW - 40, y);
+        y += 18;
+
+
+    }
+
+
+
+
+    // TOTAL
     doc.setFont("helvetica", "bold");
     doc.setFontSize(13);
     doc.setTextColor(20, 20, 20);
-    doc.text("Subtotal", 40, y);
-    const totalPrice = getTotalPrice(data.hasData[0].total);
-    doc.text(`£${totalPrice.toString()}`, pageW - 40, y, { align: "right" });
+    doc.text("Total", 40, y);
+    doc.text(`£${data?.grandTotal}`, pageW - 40, y, { align: "right" });
 
 
     // return pdf as base64 string
