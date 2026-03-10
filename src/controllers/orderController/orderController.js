@@ -147,29 +147,12 @@ const createOrder = async (req, res) => {
 
         const orderID = `OID-${Date.now().toString().slice(-5)}`;
 
-
-        // ganarate pdf file with prescription information
-        const file = await createPdfFile(bodyData, orderID);
-        const base64 = `data:application/pdf;base64,${file}`;
-        const uploadFile = await uploadSingleFileToCloudinary(base64);
-
-
-        // send email to the admin
-        await sendEmail([bodyData.email, process.env.ADMIN_EMAIL], uploadFile);
-
-
         const PrescriptionImage = await uploadSingleFileToCloudinary(bodyData?.hasData[0]?.prescriptionImage);
 
 
-        const value = { orderId: orderID, ...bodyData, pdf: uploadFile, PrescriptionImage: PrescriptionImage };
+        const value = { orderId: orderID, ...bodyData, pdf: "", PrescriptionImage: PrescriptionImage };
 
         const order = await Order.create(value);
-
-
-
-
-
-
 
 
         // payment code is here
@@ -184,7 +167,7 @@ const createOrder = async (req, res) => {
                             name: bodyData?.hasData[0]?.LenseName,
                             images: [bodyData?.hasData[0]?.ProductDetails?.product_Images[bodyData?.hasData[0]?.selectedProductIndex].img[0]],
                         },
-                        unit_amount: Math.round(bodyData?.grandTotal * 100), 
+                        unit_amount: Math.round(bodyData?.grandTotal * 100),
                     },
                     quantity: 1,
                 }
@@ -200,7 +183,6 @@ const createOrder = async (req, res) => {
         res.status(201).json({
             success: true,
             message: "Order created successfully!",
-            data: order,
             url: session.url
         });
 
